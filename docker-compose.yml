@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql
+    ports:
+    - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    # https://docs.docker.com/engine/security/seccomp/
+    # Fixes "mbind: Operation not permitted" I was seeing in console
+    # more investigation needed
+    cap_add:
+      - SYS_NICE
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: threat_scenario
+      MYSQL_USER: api
+      MYSQL_PASSWORD: password
+volumes:
+  db_data: {}
